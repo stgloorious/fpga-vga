@@ -1,0 +1,19 @@
+\documentclass{minimal}
+\usepackage{tikz}
+\usetikzlibrary{external, arrows.meta}
+
+%\tikzexternalize
+
+\begin{document}
+\begin{tikzpicture}
+	\coordinate (origin) at (0,0);
+	\coordinate (display) at (6.4,4.8);
+
+	\draw[draw=black, very thick]	(origin) -- 
+														(origin |- display) -- 
+														(display) -- 
+														(origin -| display) -- 
+														(origin);
+	\node 
+\end{tikzpicture}
+\end{document}
