@@ -1,4 +1,5 @@
 *.swp  # Swap files that vim creates
+*.vcd # Simulation dump files are too large and unnecessary
 
 ## TeX Template from Github.com
 ## Core latex/pdflatex auxiliary files:

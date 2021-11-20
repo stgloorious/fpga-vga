@@ -9,6 +9,15 @@ module vga (
 	input clk_i, /** used as pixel clock, 25.175 MHz */
 	input reset_ni,
 
+	/* RGB input */
+	input [3:0] red_i,
+	input [3:0] green_i,
+	input [3:0] blue_i,
+
+	/* Pixel coordinate output for sync */
+	output [9:0] x_o,
+	output [9:0] y_o,
+
 	/* To VGA monitor */
 	output [3:0] red_o,
 	output [3:0] green_o,
@@ -37,23 +46,20 @@ reg[9:0] vertical_counter_d; /** counts horizontal lines */
 reg[9:0] vertical_counter_q;
 
 /* Buffered output signals */
-reg [3:0] red_d;
+//reg [3:0] red_d;
 reg [3:0] red_q;
-reg [3:0] green_d;
+//reg [3:0] green_d;
 reg [3:0] green_q;
-reg [3:0] blue_d;
+//reg [3:0] blue_d;
 reg [3:0] blue_q;
 reg [3:0] hsync_d;
 reg [3:0] hsync_q;
 reg [3:0] vsync_d;
 reg [3:0] vsync_q;
 
-/* Register to wire assertion */
-assign hsync_o = hsync_q;
-assign vsync_o = vsync_q;
-assign red_o = red_q;
-assign green_o = green_q;
-assign blue_o = blue_q;
+//assign red_i = red_d;
+//assign green_i = green_d;
+//assign blue_i = blue_d;
 
 /* Synched by pixel clock, 25.175 MHz */
 always @ (posedge clk_i, negedge reset_ni) begin
@@ -67,8 +73,9 @@ always @ (posedge clk_i, negedge reset_ni) begin
 	* with a monitor on startup easier, although it 
 	* is unclear how fast a typical 
 	* monitor is able to achieve synchronization
-	* with a new device. It is also not critical 
-	* for the application.
+	* with a new device. It is also not at all
+	* critical for this application, because
+	* the screen refreshes with a rate of 60 Hz anyway.
 	*
 	*/
 	if (!reset_ni) begin	
@@ -86,9 +93,9 @@ always @ (posedge clk_i, negedge reset_ni) begin
 	end else begin 
 		
 		/* Separate synchronization */
-		red_q <= red_d;
-		green_q <= green_d;
-		blue_q <= blue_d;
+		red_q <= red_i;
+		green_q <= green_i;
+		blue_q <= blue_i;
 		hsync_q <= hsync_d;
 		vsync_q <= vsync_d;
 
@@ -99,11 +106,6 @@ end
 
 /* Combinatorics */
 always @ (*) begin
-
-	/* Testing */
-	red_d = red_q + 1;
-	green_d = green_q + 1;
-	blue_d = blue_q + 1;
 
 	/* Increment pixel count */
 	horizontal_counter_d = horizontal_counter_q + 1;
@@ -132,9 +134,18 @@ always @ (*) begin
 	end
 
 	/* Reset line count after a complete frame */
-	if (vertical_counter_q > whole_frame) begin
+	if (vertical_counter_q > whole_frame - 1) begin
 		vertical_counter_d = 'b0;
 	end
 end
+
+/* Register to wire assertion */
+assign hsync_o = hsync_q;
+assign vsync_o = vsync_q;
+assign red_o = red_q;
+assign green_o = green_q;
+assign blue_o = blue_q;
+assign x_o = horizontal_counter_q;
+assign y_o = vertical_counter_q;
 
 endmodule

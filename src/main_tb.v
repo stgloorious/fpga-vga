@@ -43,7 +43,7 @@ always begin
 end
 
 /* Simulation parameters */
-parameter DURATION = 1000000; /* Number of time steps */ 
+parameter DURATION = 500000000; /* Number of time steps */ 
 `define DUMPSTR(x) `"x.vcd`"
 initial begin
   $dumpfile(`DUMPSTR(`VCD_OUTPUT));
