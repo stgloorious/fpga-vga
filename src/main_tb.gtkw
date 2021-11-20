@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.106 (w)1999-2020 BSI
-[*] Sat Nov 20 01:46:53 2021
+[*] Sat Nov 20 02:14:16 2021
 [*]
 [dumpfile] "/home/stefan/Documents/Schule/Studium/3. Semester/FPGA/Projects/VGA/src/main_tb.vcd"
-[dumpfile_mtime] "Sat Nov 20 01:43:50 2021"
-[dumpfile_size] 16958
+[dumpfile_mtime] "Sat Nov 20 02:13:47 2021"
+[dumpfile_size] 382539
 [savefile] "/home/stefan/Documents/Schule/Studium/3. Semester/FPGA/Projects/VGA/src/main_tb.gtkw"
 [timestart] 0
 [size] 2104 2107
 [pos] -1 -1
-*-16.966248 451300 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-14.966248 47000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] template_tb.
 [sst_width] 361
 [signals_width] 542
@@ -18,9 +18,16 @@
 @28
 template_tb.dut.px_clk
 template_tb.dut.reset_ni
-@25
-template_tb.dut.vertical_counter_q[9:0]
 @24
+template_tb.dut.vertical_counter_q[9:0]
 template_tb.dut.horizontal_counter_q[9:0]
+@28
+template_tb.dut.vsync_o
+template_tb.dut.hsync_o
+@22
+template_tb.dut.red_o[3:0]
+template_tb.dut.green_o[3:0]
+@23
+template_tb.dut.blue_o[3:0]
 [pattern_trace] 1
 [pattern_trace] 0
