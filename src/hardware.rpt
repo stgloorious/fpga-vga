@@ -1,0 +1,63 @@
+
+icetime topological timing analysis report
+==========================================
+
+Info: max_span_hack is enabled: estimate is conservative.
+
+Report for critical path:
+-------------------------
+
+        lc40_8_28_1 (LogicCell40) [clk] -> lcout: 1.491 ns
+     1.491 ns net_33116 (u_vga.horizontal_counter_d_SB_LUT4_O_I0[2])
+        odrv_8_28_33116_32896 (Odrv4) I -> O: 0.649 ns
+        t219 (LocalMux) I -> O: 1.099 ns
+        inmux_8_26_36767_36775 (InMux) I -> O: 0.662 ns
+        lc40_8_26_0 (LogicCell40) in1 -> carryout: 0.675 ns
+     4.577 ns t50
+        lc40_8_26_1 (LogicCell40) carryin -> carryout: 0.278 ns
+     4.855 ns t52
+        lc40_8_26_2 (LogicCell40) carryin -> carryout: 0.278 ns
+     5.133 ns t53
+        lc40_8_26_3 (LogicCell40) carryin -> carryout: 0.278 ns
+     5.411 ns t55
+        lc40_8_26_4 (LogicCell40) carryin -> carryout: 0.278 ns
+     5.689 ns t57
+        lc40_8_26_5 (LogicCell40) carryin -> carryout: 0.278 ns
+     5.967 ns t59
+        lc40_8_26_6 (LogicCell40) carryin -> carryout: 0.278 ns
+     6.245 ns t61
+        lc40_8_26_7 (LogicCell40) carryin -> carryout: 0.278 ns
+     6.524 ns net_36815 (u_vga.hsync_d_SB_LUT4_O_I2_SB_LUT4_O_I2_SB_LUT4_I0_I3[7])
+        t62 (ICE_CARRY_IN_MUX) carryinitin -> carryinitout: 0.556 ns
+        lc40_8_27_0 (LogicCell40) carryin -> carryout: 0.278 ns
+     7.358 ns net_36896 (u_vga.hsync_d_SB_LUT4_O_I2_SB_LUT4_O_I2[3])
+        inmux_8_27_36896_36906 (InMux) I -> O: 0.662 ns
+        lc40_8_27_1 (LogicCell40) in3 -> lcout: 0.874 ns
+     8.894 ns net_32993 (u_vga.horizontal_counter_d_SB_LUT4_O_I0[0])
+        odrv_8_27_32993_36857 (Odrv4) I -> O: 0.649 ns
+        t187 (Span4Mux_h4) I -> O: 0.543 ns
+        t186 (LocalMux) I -> O: 1.099 ns
+        inmux_10_29_44780_44808 (InMux) I -> O: 0.662 ns
+        lc40_10_29_0 (LogicCell40) in3 -> lcout: 0.874 ns
+    12.722 ns net_40900 (u_vga.vertical_counter_q_SB_DFFES_Q_E)
+        odrv_10_29_40900_44866 (Odrv4) I -> O: 0.649 ns
+        t308 (Span4Mux_h4) I -> O: 0.543 ns
+        t307 (Span4Mux_v4) I -> O: 0.649 ns
+        t306 (LocalMux) I -> O: 1.099 ns
+        inmux_9_29_40952_41020 (CEMux) I -> O: 0.702 ns
+    16.364 ns net_41020 (u_vga.vertical_counter_q_SB_DFFES_Q_E)
+        lc40_9_29_7 (LogicCell40) ce [setup]: 0.000 ns
+    16.364 ns net_37076 (u_vga.vertical_counter_q[7])
+
+Resolvable net names on path:
+     1.491 ns ..  3.901 ns u_vga.horizontal_counter_d_SB_LUT4_O_I0[2]
+     6.524 ns ..  7.080 ns u_vga.hsync_d_SB_LUT4_O_I2_SB_LUT4_O_I2_SB_LUT4_I0_I3[7]
+     7.358 ns ..  8.020 ns u_vga.hsync_d_SB_LUT4_O_I2_SB_LUT4_O_I2[3]
+     8.894 ns .. 11.848 ns u_vga.horizontal_counter_d_SB_LUT4_O_I0[0]
+    12.722 ns .. 16.364 ns u_vga.vertical_counter_q_SB_DFFES_Q_E
+               carryout -> u_vga.vertical_counter_d_SB_LUT4_O_I3[8]
+                  lcout -> u_vga.vertical_counter_q[7]
+
+Total number of logic levels: 12
+Total path delay: 16.36 ns (61.11 MHz)
+

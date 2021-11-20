@@ -74,11 +74,8 @@ always @ (posedge clk_i, negedge reset_ni) begin
 	if (!reset_ni) begin	
 		/* Set all output lines asynchronously */
 		red_q <= 'b0;
-		red_d <= 'b0;
 		green_q <= 'b0;
-		green_d <= 'b0;
 		blue_q <= 'b0;
-		blue_d <= 'b0;
 		
 		hsync_q <= 'b0;
 		vsync_q <= 'b0;
@@ -86,8 +83,6 @@ always @ (posedge clk_i, negedge reset_ni) begin
 		/* Reset counters */
 		horizontal_counter_q <= visible_area_h;
 		vertical_counter_q <= visible_area_v;
-		horizontal_counter_d <= visible_area_h;
-		vertical_counter_d <= visible_area_v;
 	end else begin 
 		
 		/* Separate synchronization */
@@ -104,47 +99,41 @@ end
 
 /* Combinatorics */
 always @ (*) begin
-	if (reset_ni) begin 
-		
-		/* Testing */
-		red_d = red_q + 1;
-		green_d = green_q + 1;
-		blue_d = blue_q + 1;
 
-		/* Increment pixel count */
-		horizontal_counter_d = horizontal_counter_q + 1;
+	/* Testing */
+	red_d = red_q + 1;
+	green_d = green_q + 1;
+	blue_d = blue_q + 1;
 
-		/* Increment line count */
-		if (horizontal_counter_q > whole_line - 2) begin
-			horizontal_counter_d = 'b0;
-			vertical_counter_d = vertical_counter_q + 1;
+	/* Increment pixel count */
+	horizontal_counter_d = horizontal_counter_q + 1;
+	vertical_counter_d = vertical_counter_q;
 
-			/* Testing */
-			red_d = 'b0;
-			green_d = 'b0;
-			blue_d = 'b0;
-		end
+	/* Increment line count */
+	if (horizontal_counter_q > whole_line - 2) begin
+		horizontal_counter_d = 'b0;
+		vertical_counter_d = vertical_counter_q + 1;
+	end
 
-		/* Generate horizontal sync pulse */
-		if (horizontal_counter_q > visible_area_h + front_porch_h - 2 
-			&& horizontal_counter_q < visible_area_h + front_porch_h + sync_pulse_h - 1) begin
-			hsync_d = 'b1;
-		end else begin
-			hsync_d = 'b0;
-		end
+	/* Generate horizontal sync pulse */
+	if (horizontal_counter_q > visible_area_h + front_porch_h - 2 
+		&& horizontal_counter_q < visible_area_h + front_porch_h + sync_pulse_h - 1) begin
+		hsync_d = 'b1;
+	end else begin
+		hsync_d = 'b0;
+	end
 
-		/* Generate vertical sync pulse */
-		if (vertical_counter_q > visible_area_v + front_porch_v - 2
-			&& vertical_counter_q < visible_area_v + front_porch_v + sync_pulse_v - 1) begin
-			vsync_d = 'b1;
-		end else begin
-			vsync_d = 'b0;
-		end
+	/* Generate vertical sync pulse */
+	if (vertical_counter_q > visible_area_v + front_porch_v - 2
+		&& vertical_counter_q < visible_area_v + front_porch_v + sync_pulse_v - 1) begin
+		vsync_d = 'b1;
+	end else begin
+		vsync_d = 'b0;
+	end
 
-		/* Reset line count after a complete frame */
-		if (vertical_counter_q > whole_frame) begin
-			vertical_counter_d = 'b0;
-		end
+	/* Reset line count after a complete frame */
+	if (vertical_counter_q > whole_frame) begin
+		vertical_counter_d = 'b0;
 	end
 end
 
