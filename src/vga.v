@@ -10,12 +10,13 @@ module vga (
 	input reset_ni,
 
 	/* To VGA monitor */
-	output red[3:0],
-	output green[3:0],
-	output blue[3:0],
-	output hsync,
-	output vsync
+	output [3:0] red_o,
+	output [3:0] green_o,
+	output [3:0] blue_o,
+	output hsync_o,
+	output vsync_o
 
 
 );
 
+endmodule

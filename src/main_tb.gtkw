@@ -1,0 +1,26 @@
+[*]
+[*] GTKWave Analyzer v3.3.106 (w)1999-2020 BSI
+[*] Sat Nov 20 01:46:53 2021
+[*]
+[dumpfile] "/home/stefan/Documents/Schule/Studium/3. Semester/FPGA/Projects/VGA/src/main_tb.vcd"
+[dumpfile_mtime] "Sat Nov 20 01:43:50 2021"
+[dumpfile_size] 16958
+[savefile] "/home/stefan/Documents/Schule/Studium/3. Semester/FPGA/Projects/VGA/src/main_tb.gtkw"
+[timestart] 0
+[size] 2104 2107
+[pos] -1 -1
+*-16.966248 451300 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] template_tb.
+[sst_width] 361
+[signals_width] 542
+[sst_expanded] 1
+[sst_vpaned_height] 648
+@28
+template_tb.dut.px_clk
+template_tb.dut.reset_ni
+@25
+template_tb.dut.vertical_counter_q[9:0]
+@24
+template_tb.dut.horizontal_counter_q[9:0]
+[pattern_trace] 1
+[pattern_trace] 0
