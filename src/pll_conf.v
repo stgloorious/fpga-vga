@@ -16,7 +16,7 @@ module pll(
 	output locked
 	);
 
-SB_PLL40_CORE #(
+SB_PLL40_PAD #(
 		.FEEDBACK_PATH("SIMPLE"),
 		.DIVR(4'b0000),		// DIVR =  0
 		.DIVF(7'b1000010),	// DIVF = 66
@@ -26,7 +26,7 @@ SB_PLL40_CORE #(
 		.LOCK(locked),
 		.RESETB(1'b1),
 		.BYPASS(1'b0),
-		.REFERENCECLK(clock_in),
+		.PACKAGEPIN(clock_in),
 		.PLLOUTCORE(clock_out)
 		);
 
