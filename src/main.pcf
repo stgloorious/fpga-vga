@@ -1,17 +1,17 @@
-/**
-* @file main.pcf
-* @brief Describes how signals are mapped to physical pads on the FPGA
-*
-*/
+#
+# @file main.pcf
+# @brief Describes how signals are mapped to physical pads on the FPGA
+#
+#
 
-/* 12 MHz clock */
-set_io --warn-no-port pin_clk_i		35
+# 12 MHz clock #
+set_io --warn-no-port clk_i		35
 
 
-/* Reset button */
+# Reset button #
 set_io --warn-no-port reset_ni		10
 
-/* PMOD 1A */
+# PMOD 1A #
 set_io --warn-no-port red_o[0]		4
 set_io --warn-no-port red_o[1]		2
 set_io --warn-no-port red_o[2]		47
@@ -22,7 +22,7 @@ set_io --warn-no-port blue_o[1]		48
 set_io --warn-no-port blue_o[2]		46
 set_io --warn-no-port blue_o[3]		44
 
-/* PMOD 2A */
+# PMOD 2A #
 set_io --warn-no-port green_o[0]	43
 set_io --warn-no-port green_o[1]	38
 set_io --warn-no-port green_o[2]	34
