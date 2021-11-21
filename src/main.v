@@ -64,6 +64,8 @@ vga u_vga (
 	.vsync_o(vsync_o)
 );
 
+reg [9:0] x_ball='b0;
+reg [9:0] y_ball='b0;
 
 always @(posedge px_clk, negedge reset_ni)begin
 	if (!reset_ni) begin
@@ -71,16 +73,85 @@ always @(posedge px_clk, negedge reset_ni)begin
 		green='b0;
 		blue='b0;
 	end else begin
-		if (x_o > 0 && x_o < 640 && y_o > 0 && y_o < 480) begin 
-			red='d15;
-			blue='d15;
-			green='d15;
+		
+		/* Only output RGB values if in visible area */
+		if (x_o >= 0 && x_o < 640 && y_o >= 0 && y_o < 480) begin
+			red = 'd0;
+			green = 'd0;
+			blue = 'd0;
+			
+			/* Ball */
+			if (x_o >= x_ball && x_o < x_ball+20 && y_o >= y_ball && y_o < y_ball+30) begin 
+				red='d0;
+				blue='d15;
+				green='d0;
+			end else begin
+				if (x_o < 50 || x_o > 590) begin 
+					red = 'd0;
+					green='d2;
+					blue = 'd0;
+				end else begin
+					red = 'd0;
+					green='d0;
+					blue = 'd0;
+				end
+
+				if (x_o == 320) begin
+					red='d15;
+					green='d15;
+					blue='d15;
+				end 
+			end
+
 		end else begin
+			/* Outside of visible area */
 			red='b0;
 			green='b0;
 			blue='b0;
 		end
+	end
+end
+
+reg [31:0] time_count = 'b0;
+reg x_dir = 'b0;
+reg y_dir = 'b0;
+
+always @(posedge px_clk, negedge reset_ni) begin
+	if (!reset_ni) begin
+	end else begin
+		if (time_count > 100000) begin 
+			if (x_ball >= 619) begin
+				x_dir = 'b0;
+			end else begin
+				if (x_ball == 0) begin
+				x_dir = 'b1;
+				end
+			end
+
+			if (y_ball >= 454) begin
+				y_dir = 'b0;
+			end else begin
+				if (y_ball == 0) begin 
+					y_dir = 'b1;
+				end 
+			end
+
+				if (x_dir == 'b0) begin
+					x_ball = x_ball - 1;
+				end else begin
+					x_ball = x_ball + 1;	
+				end
+
+				if (y_dir == 'b0) begin
+					y_ball = y_ball - 1;
+				end else begin 
+					y_ball = y_ball + 1;
+				end	
+				time_count = 'b0;
+		end else begin
+			time_count = time_count + 1;
 		end
+	end
 end
 
 endmodule

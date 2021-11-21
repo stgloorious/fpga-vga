@@ -7,54 +7,111 @@ Info: max_span_hack is enabled: estimate is conservative.
 Report for critical path:
 -------------------------
 
-        lc40_9_30_5 (LogicCell40) [clk] -> lcout: 1.491 ns
-     1.491 ns net_37197 (y_o[0])
-        t252 (LocalMux) I -> O: 1.099 ns
-        inmux_10_29_44801_44843 (InMux) I -> O: 0.662 ns
-        t126 (CascadeMux) I -> O: 0.000 ns
-        lc40_10_29_6 (LogicCell40) in2 -> lcout: 1.205 ns
-     4.457 ns net_40906 (u_vga.vsync_d_SB_LUT4_O_I2[0])
-        t322 (LocalMux) I -> O: 1.099 ns
-        inmux_11_28_48502_48515 (InMux) I -> O: 0.662 ns
-        t129 (CascadeMux) I -> O: 0.000 ns
-        lc40_11_28_0 (LogicCell40) in2 -> carryout: 0.609 ns
-     6.828 ns t113
-        lc40_11_28_1 (LogicCell40) carryin -> carryout: 0.278 ns
-     7.106 ns t114
-        lc40_11_28_2 (LogicCell40) carryin -> carryout: 0.278 ns
-     7.384 ns t115
-        lc40_11_28_3 (LogicCell40) carryin -> carryout: 0.278 ns
-     7.663 ns t116
-        lc40_11_28_4 (LogicCell40) carryin -> carryout: 0.278 ns
-     7.941 ns t117
-        lc40_11_28_5 (LogicCell40) carryin -> carryout: 0.278 ns
-     8.219 ns t118
-        lc40_11_28_6 (LogicCell40) carryin -> carryout: 0.278 ns
-     8.497 ns t119
-        lc40_11_28_7 (LogicCell40) carryin -> carryout: 0.278 ns
-     8.775 ns net_48554 (u_vga.vsync_d_SB_LUT4_O_I2[7])
-        t120 (ICE_CARRY_IN_MUX) carryinitin -> carryinitout: 0.556 ns
-        lc40_11_29_0 (LogicCell40) carryin -> carryout: 0.278 ns
-     9.610 ns t121
-        lc40_11_29_1 (LogicCell40) carryin -> carryout: 0.278 ns
-     9.888 ns net_48641 ($nextpnr_ICESTORM_LC_3$I3)
-        inmux_11_29_48641_48651 (InMux) I -> O: 0.662 ns
-        lc40_11_29_2 (LogicCell40) in3 -> lcout: 0.874 ns
-    11.424 ns net_44733 (u_vga.vsync_d_SB_LUT4_O_I1[1])
-        t331 (LocalMux) I -> O: 1.099 ns
-        inmux_10_29_44790_44805 (InMux) I -> O: 0.662 ns
-    13.186 ns net_44805 (u_vga.vsync_d_SB_LUT4_O_I1[1])
-        lc40_10_29_0 (LogicCell40) in0 [setup]: 1.060 ns
-    14.245 ns net_40900 (vsync_o$SB_IO_OUT)
+        lc40_9_1_7 (LogicCell40) [clk] -> lcout: 1.491 ns
+     1.491 ns net_33591 (time_count[0])
+        t1435 (LocalMux) I -> O: 1.099 ns
+        inmux_9_1_37472_37516 (InMux) I -> O: 0.662 ns
+        t505 (CascadeMux) I -> O: 0.000 ns
+        lc40_9_1_4 (LogicCell40) in2 -> lcout: 1.205 ns
+     4.457 ns net_33588 (time_count_SB_DFFESR_Q_31_D[0])
+        t1433 (LocalMux) I -> O: 1.099 ns
+        inmux_9_2_37624_37655 (InMux) I -> O: 0.662 ns
+        t506 (CascadeMux) I -> O: 0.000 ns
+        lc40_9_2_0 (LogicCell40) in2 -> carryout: 0.609 ns
+     6.828 ns t421
+        lc40_9_2_1 (LogicCell40) carryin -> carryout: 0.278 ns
+     7.106 ns t422
+        lc40_9_2_2 (LogicCell40) carryin -> carryout: 0.278 ns
+     7.384 ns t423
+        lc40_9_2_3 (LogicCell40) carryin -> carryout: 0.278 ns
+     7.663 ns t424
+        lc40_9_2_4 (LogicCell40) carryin -> carryout: 0.278 ns
+     7.941 ns t425
+        lc40_9_2_5 (LogicCell40) carryin -> carryout: 0.278 ns
+     8.219 ns t426
+        lc40_9_2_6 (LogicCell40) carryin -> carryout: 0.278 ns
+     8.497 ns t427
+        lc40_9_2_7 (LogicCell40) carryin -> carryout: 0.278 ns
+     8.775 ns net_37694 (y_dir_SB_DFFE_Q_E_SB_LUT4_O_I2[7])
+        t428 (ICE_CARRY_IN_MUX) carryinitin -> carryinitout: 0.556 ns
+        lc40_9_3_0 (LogicCell40) carryin -> carryout: 0.278 ns
+     9.610 ns t429
+        lc40_9_3_1 (LogicCell40) carryin -> carryout: 0.278 ns
+     9.888 ns t430
+        lc40_9_3_2 (LogicCell40) carryin -> carryout: 0.278 ns
+    10.166 ns t431
+        lc40_9_3_3 (LogicCell40) carryin -> carryout: 0.278 ns
+    10.444 ns t432
+        lc40_9_3_4 (LogicCell40) carryin -> carryout: 0.278 ns
+    10.722 ns t433
+        lc40_9_3_5 (LogicCell40) carryin -> carryout: 0.278 ns
+    11.000 ns t434
+        lc40_9_3_6 (LogicCell40) carryin -> carryout: 0.278 ns
+    11.278 ns t435
+        lc40_9_3_7 (LogicCell40) carryin -> carryout: 0.278 ns
+    11.556 ns net_37817 (y_dir_SB_DFFE_Q_E_SB_LUT4_O_I2[15])
+        t436 (ICE_CARRY_IN_MUX) carryinitin -> carryinitout: 0.556 ns
+        lc40_9_4_0 (LogicCell40) carryin -> carryout: 0.278 ns
+    12.391 ns t437
+        lc40_9_4_1 (LogicCell40) carryin -> carryout: 0.278 ns
+    12.669 ns t438
+        lc40_9_4_2 (LogicCell40) carryin -> carryout: 0.278 ns
+    12.947 ns t439
+        lc40_9_4_3 (LogicCell40) carryin -> carryout: 0.278 ns
+    13.225 ns t440
+        lc40_9_4_4 (LogicCell40) carryin -> carryout: 0.278 ns
+    13.503 ns t441
+        lc40_9_4_5 (LogicCell40) carryin -> carryout: 0.278 ns
+    13.782 ns t442
+        lc40_9_4_6 (LogicCell40) carryin -> carryout: 0.278 ns
+    14.060 ns t443
+        lc40_9_4_7 (LogicCell40) carryin -> carryout: 0.278 ns
+    14.338 ns net_37940 (y_dir_SB_DFFE_Q_E_SB_LUT4_O_I2[23])
+        t444 (ICE_CARRY_IN_MUX) carryinitin -> carryinitout: 0.556 ns
+        lc40_9_5_0 (LogicCell40) carryin -> carryout: 0.278 ns
+    15.172 ns t445
+        lc40_9_5_1 (LogicCell40) carryin -> carryout: 0.278 ns
+    15.450 ns t446
+        lc40_9_5_2 (LogicCell40) carryin -> carryout: 0.278 ns
+    15.728 ns t447
+        lc40_9_5_3 (LogicCell40) carryin -> carryout: 0.278 ns
+    16.007 ns t448
+        lc40_9_5_4 (LogicCell40) carryin -> carryout: 0.278 ns
+    16.285 ns t449
+        lc40_9_5_5 (LogicCell40) carryin -> carryout: 0.278 ns
+    16.563 ns t450
+        lc40_9_5_6 (LogicCell40) carryin -> carryout: 0.278 ns
+    16.841 ns t451
+        lc40_9_5_7 (LogicCell40) carryin -> carryout: 0.278 ns
+    17.119 ns net_38063 ($nextpnr_ICESTORM_LC_3$I3)
+        t452 (ICE_CARRY_IN_MUX) carryinitin -> carryinitout: 0.556 ns
+        inmux_9_6_38107_38148 (InMux) I -> O: 0.662 ns
+        lc40_9_6_0 (LogicCell40) in3 -> lcout: 0.874 ns
+    19.212 ns net_34240 (y_dir_SB_DFFE_Q_E_SB_LUT4_O_I2[31])
+        t1438 (LocalMux) I -> O: 1.099 ns
+        inmux_10_5_41844_41871 (InMux) I -> O: 0.662 ns
+        lc40_10_5_3 (LogicCell40) in0 -> lcout: 1.285 ns
+    22.258 ns net_37951 (y_dir_SB_DFFE_Q_E)
+        odrv_10_5_37951_41563 (Odrv4) I -> O: 0.649 ns
+        t1553 (Span4Mux_v4) I -> O: 0.649 ns
+        t1552 (IoSpan4Mux) I -> O: 0.742 ns
+        t1551 (LocalMux) I -> O: 1.099 ns
+        t1550 (IoInMux) I -> O: 0.662 ns
+        t1549 (ICE_GB) USERSIGNALTOGLOBALBUFFER -> GLOBALBUFFEROUTPUT: 1.589 ns
+        t1548 (gio2CtrlBuf) I -> O: 0.000 ns
+        t1547 (GlobalMux) I -> O: 0.278 ns
+    27.927 ns seg_1_26_glb_netwk_5_10
 
 Resolvable net names on path:
-     1.491 ns ..  3.252 ns y_o[0]
-     4.457 ns ..  6.219 ns u_vga.vsync_d_SB_LUT4_O_I2[0]
-     8.775 ns ..  9.331 ns u_vga.vsync_d_SB_LUT4_O_I2[7]
-     9.888 ns .. 10.550 ns $nextpnr_ICESTORM_LC_3$I3
-    11.424 ns .. 13.186 ns u_vga.vsync_d_SB_LUT4_O_I1[1]
-                  lcout -> vsync_o$SB_IO_OUT
+     1.491 ns ..  3.252 ns time_count[0]
+     4.457 ns ..  6.219 ns time_count_SB_DFFESR_Q_31_D[0]
+     8.775 ns ..  9.331 ns y_dir_SB_DFFE_Q_E_SB_LUT4_O_I2[7]
+    11.556 ns .. 12.113 ns y_dir_SB_DFFE_Q_E_SB_LUT4_O_I2[15]
+    14.338 ns .. 14.894 ns y_dir_SB_DFFE_Q_E_SB_LUT4_O_I2[23]
+    17.119 ns .. 18.338 ns $nextpnr_ICESTORM_LC_3$I3
+    19.212 ns .. 20.973 ns y_dir_SB_DFFE_Q_E_SB_LUT4_O_I2[31]
+    22.258 ns .. 22.907 ns y_dir_SB_DFFE_Q_E
 
-Total number of logic levels: 13
-Total path delay: 14.25 ns (70.20 MHz)
+Total number of logic levels: 36
+Total path delay: 27.93 ns (35.81 MHz)
 
