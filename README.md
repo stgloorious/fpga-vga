@@ -2,6 +2,7 @@
 Little FPGA project that drives a VGA monitor.
 Written in Verilog, developed using [open source tools](https://github.com/FPGAwars/apio) and [hardware](https://icebreaker-fpga.org/).
 
+![pong](docs/pong.gif)
 ## Hardware components
 - FPGA: Lattice iCE40UP5K on iCEBreaker v1.0e Development Board
 - Pmod VGA from Digilent ([Schematic](https://digilent.com/reference/_media/reference/pmod/pmodvga/pmodvga_sch.pdf))
