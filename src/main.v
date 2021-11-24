@@ -70,11 +70,15 @@ reg [9:0] x_ball='b0;
 reg [9:0] y_ball='b0;
 
 /* Ball size, adjusted for 16:9 stretching */
-localparam ball_height = 'd27;
-localparam ball_width =	'd20;
+localparam BALL_HEIGHT = 'd27;
+localparam BALL_WIDTH =	'd20;
+
+localparam SCREEN_WIDTH = 'd640;
+localparam SCREEN_HEIGHT = 'd480;
 
 /* Runs at 25.125 MHz (pixel clock) */
 always @(posedge px_clk, negedge reset_ni)begin
+	
 	if (!reset_ni) begin
 		red='b0;
 		green='b0;
@@ -85,13 +89,17 @@ always @(posedge px_clk, negedge reset_ni)begin
 		* otherwise the "autoadjust" of the monitor makes 
 		* weird things and the frame is not completely visible.
 		*/
-		if (x_o >= 0 && x_o < 640 && y_o >= 0 && y_o < 480) begin
+		if (x_o >= 0 && x_o < SCREEN_WIDTH 
+			&& y_o >= 0 && y_o < SCREEN_HEIGHT) begin
+			
+			// Necessary?
 			red = 'd0;
 			green = 'd0;
 			blue = 'd0;
 			
-			/* Ball */
-			if (x_o >= x_ball && x_o < x_ball+20 && y_o >= y_ball && y_o < y_ball+27) begin 
+			/* Draw ball */
+			if (x_o >= x_ball && x_o < x_ball+BALL_WIDTH 
+				&& y_o >= y_ball && y_o < y_ball+BALL_HEIGHT) begin 
 				
 				/* Ball color */
 				red='d0;
@@ -120,6 +128,7 @@ always @(posedge px_clk, negedge reset_ni)begin
 				end 
 			end
 		end else begin
+			
 			/* Outside of visible area */
 			red='b0;
 			green='b0;
@@ -130,41 +139,63 @@ always @(posedge px_clk, negedge reset_ni)begin
 end
 
 reg [31:0] time_count = 'b0;
-reg x_dir = 'b0;
-reg y_dir = 'b0;
+reg x_dir = DIR_INCREASING;
+reg y_dir = DIR_INCREASING;
+
+/** Counting at 25.125 MHz, ball moves 
+* one step if counter reaches value TIMESTEP; */
+localparam TIMESTEP = 'd100000;
+
+/** How many pixels the ball advances in
+* one timestep */
+localparam BALL_STEP_SIZE = 'd1;
+
+/* For indicating the direction 
+* in which the ball is moving */
+localparam DIR_DECREASING = 'b0;
+localparam DIR_INCREASING = 'b1;
 
 always @(posedge px_clk, negedge reset_ni) begin
 	if (!reset_ni) begin
+		x_ball = 'd0;
+		y_ball = 'd0;
+		x_dir = DIR_INCREASING;
+		y_dir = DIR_INCREASING;
 	end else begin
-		if (time_count > 100000) begin 
-			if (x_ball >= 619) begin
-				x_dir = 'b0;
+
+		/* Advance ball one step, 
+		* with boundary check */
+		if (time_count > TIMESTEP) begin 
+			if (x_ball >= SCREEN_WIDTH-BALL_WIDTH) begin
+				x_dir = DIR_DECREASING;
 			end else begin
 				if (x_ball == 0) begin
-				x_dir = 'b1;
+				x_dir = DIR_INCREASING;
 				end
 			end
 
-			if (y_ball >= 454) begin
-				y_dir = 'b0;
+			if (y_ball >= SCREEN_HEIGHT-BALL_HEIGHT) begin
+				y_dir = DIR_DECREASING;
 			end else begin
 				if (y_ball == 0) begin 
-					y_dir = 'b1;
+					y_dir = DIR_INCREASING;
 				end 
 			end
 
-				if (x_dir == 'b0) begin
-					x_ball = x_ball - 1;
+				if (x_dir == DIR_DECREASING) begin
+					x_ball = x_ball - BALL_STEP_SIZE;
 				end else begin
-					x_ball = x_ball + 1;	
+					x_ball = x_ball + BALL_STEP_SIZE;	
 				end
 
-				if (y_dir == 'b0) begin
-					y_ball = y_ball - 1;
+				if (y_dir == DIR_DECREASING) begin
+					y_ball = y_ball - BALL_STEP_SIZE;
 				end else begin 
-					y_ball = y_ball + 1;
+					y_ball = y_ball + BALL_STEP_SIZE;
 				end	
+
 				time_count = 'b0;
+
 		end else begin
 			time_count = time_count + 1;
 		end

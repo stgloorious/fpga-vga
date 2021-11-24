@@ -1,5 +1,6 @@
 *.swp  # Swap files that vim creates
 *.vcd # Simulation dump files are too large and unnecessary
+*.dblite # Some database that we don't need, probably created by apio
 
 ## TeX Template from Github.com
 ## Core latex/pdflatex auxiliary files:
