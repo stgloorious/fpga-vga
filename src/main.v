@@ -12,6 +12,11 @@ module main (
 	input clk_i, /** 12 MHz */
 	input reset_ni, 
 
+	/* Buttons to control 
+	* the paddle */
+	input btn_left_i,
+	input btn_right_i,
+
 	/* To VGA monitor */
 	output [3:0] red_o,
 	output [3:0] green_o,
@@ -65,18 +70,55 @@ vga u_vga (
 	.vsync_o(vsync_o)
 );
 
-/* Current ball position */
-reg [9:0] x_ball='b0;
-reg [9:0] y_ball='b0;
+/** Current ball position */
+reg [9:0] x_ball = 'b0;
+reg [9:0] y_ball = 'b0;
 
-/* Ball size, adjusted for 16:9 stretching */
-localparam BALL_HEIGHT = 'd27;
-localparam BALL_WIDTH =	'd20;
+/** Current paddle position */
+reg [9:0] y_paddle = 'b0;
 
+/** Visible area */
 localparam SCREEN_WIDTH = 'd640;
 localparam SCREEN_HEIGHT = 'd480;
 
+/** Ball size, adjusted for 16:9 stretching */
+localparam BALL_HEIGHT = 'd27;
+localparam BALL_WIDTH =	'd20;
+
+localparam SIDEBAR_WIDTH = 'd30;
+
+reg [31:0] time_count = 'b0;
+
+reg x_dir = DIR_INCREASING;
+reg y_dir = DIR_INCREASING;
+
+/** Counting at 25.125 MHz, ball moves 
+* one step if counter reaches value TIMESTEP; */
+localparam TIMESTEP = 'd100000;
+
+/** How many pixels the ball advances in
+* one timestep */
+localparam BALL_STEP_SIZE = 'd1;
+
+/** For indicating the direction 
+* in which the ball is moving */
+localparam DIR_DECREASING = 'b0;
+localparam DIR_INCREASING = 'b1;
+
+/** Paddle size */
+localparam PADDLE_WIDTH = 'd8;
+localparam PADDLE_HEIGHT = 'd30;
+
+/** How many pixels the paddle
+* advances in one time step */
+localparam PADDLE_STEP_SIZE = 'd1;
+
+/** X direction of the paddle */
+localparam PADDLE_POS = 'd40;
+
+
 /* Runs at 25.125 MHz (pixel clock) */
+/** This block does the drawing */
 always @(posedge px_clk, negedge reset_ni)begin
 	
 	if (!reset_ni) begin
@@ -91,41 +133,50 @@ always @(posedge px_clk, negedge reset_ni)begin
 		*/
 		if (x_o >= 0 && x_o < SCREEN_WIDTH 
 			&& y_o >= 0 && y_o < SCREEN_HEIGHT) begin
-			
-			// Necessary?
-			red = 'd0;
-			green = 'd0;
-			blue = 'd0;
-			
+				
 			/* Draw ball */
-			if (x_o >= x_ball && x_o < x_ball+BALL_WIDTH 
-				&& y_o >= y_ball && y_o < y_ball+BALL_HEIGHT) begin 
+			if (x_o >= x_ball && x_o < x_ball + BALL_WIDTH 
+				&& y_o >= y_ball && y_o < y_ball + BALL_HEIGHT) begin 
 				
 				/* Ball color */
-				red='d0;
-				blue='d15;
-				green='d0;
-				end else begin
+				red = 'd0;
+				blue = 'd15;
+				green = 'd0;
+			
+			end else begin
 
-				/* Side bars */
-				if (x_o < 50 || x_o > 590) begin 
-					red = 'd2;
-					green='d2;
-					blue = 'd4;
-				end else begin
+				/* Draw paddle */
+				if (x_o >= PADDLE_POS && x_o < PADDLE_POS + PADDLE_WIDTH
+					&& y_o >= y_paddle && y_o < y_paddle + PADDLE_HEIGHT) begin
 					
-					/* Background color */
-					red = 'd15;
-					green='d15;
-					blue = 'd15;
-				end
+					/* Paddle color */
+					red = 'd0;
+					green = 'd0;
+					blue = 'd0;
 
-				/* Middle line */
-				if (x_o == 320) begin
-					red='d15;
-					green='d0;
-					blue='d0;
-				end 
+				end else begin
+
+					/* Side bars */
+					if (x_o < SIDEBAR_WIDTH 
+						|| x_o > SCREEN_WIDTH-SIDEBAR_WIDTH) begin 
+						red = 'd2;
+						green='d2;
+						blue = 'd4;
+					end else begin
+						
+						/* Background color */
+						red = 'd15;
+						green='d15;
+						blue = 'd15;
+					end
+
+					/* Middle line */
+					if (x_o == 320) begin
+						red='d15;
+						green='d0;
+						blue='d0;
+					end
+				end
 			end
 		end else begin
 			
@@ -138,23 +189,8 @@ always @(posedge px_clk, negedge reset_ni)begin
 	end
 end
 
-reg [31:0] time_count = 'b0;
-reg x_dir = DIR_INCREASING;
-reg y_dir = DIR_INCREASING;
-
-/** Counting at 25.125 MHz, ball moves 
-* one step if counter reaches value TIMESTEP; */
-localparam TIMESTEP = 'd100000;
-
-/** How many pixels the ball advances in
-* one timestep */
-localparam BALL_STEP_SIZE = 'd1;
-
-/* For indicating the direction 
-* in which the ball is moving */
-localparam DIR_DECREASING = 'b0;
-localparam DIR_INCREASING = 'b1;
-
+/* Running at 25.125 MHz */
+/** This block contains game logic */
 always @(posedge px_clk, negedge reset_ni) begin
 	if (!reset_ni) begin
 		x_ball = 'd0;
@@ -166,14 +202,26 @@ always @(posedge px_clk, negedge reset_ni) begin
 		/* Advance ball one step, 
 		* with boundary check */
 		if (time_count > TIMESTEP) begin 
+		
+			/* Check if ball collides with paddle */
+			if (x_ball == PADDLE_POS+PADDLE_WIDTH 
+				&& y_ball+BALL_HEIGHT >= y_paddle
+				&& y_ball < y_paddle+PADDLE_HEIGHT) begin
+					x_dir = DIR_INCREASING;
+					y_dir = !y_dir;
+			end
+
+			/* Boundary check in x direction */
 			if (x_ball >= SCREEN_WIDTH-BALL_WIDTH) begin
 				x_dir = DIR_DECREASING;
 			end else begin
 				if (x_ball == 0) begin
+				x_ball = SCREEN_WIDTH/2;
 				x_dir = DIR_INCREASING;
 				end
 			end
 
+			/* Boundary check in y direction */
 			if (y_ball >= SCREEN_HEIGHT-BALL_HEIGHT) begin
 				y_dir = DIR_DECREASING;
 			end else begin
@@ -182,19 +230,21 @@ always @(posedge px_clk, negedge reset_ni) begin
 				end 
 			end
 
-				if (x_dir == DIR_DECREASING) begin
-					x_ball = x_ball - BALL_STEP_SIZE;
-				end else begin
-					x_ball = x_ball + BALL_STEP_SIZE;	
-				end
+			/* Advance ball in x direction */
+			if (x_dir == DIR_DECREASING) begin
+				x_ball = x_ball - BALL_STEP_SIZE;
+			end else begin
+				x_ball = x_ball + BALL_STEP_SIZE;	
+			end
 
-				if (y_dir == DIR_DECREASING) begin
-					y_ball = y_ball - BALL_STEP_SIZE;
-				end else begin 
-					y_ball = y_ball + BALL_STEP_SIZE;
-				end	
+			/* Advance ball in y direction */
+			if (y_dir == DIR_DECREASING) begin
+				y_ball = y_ball - BALL_STEP_SIZE;
+			end else begin 
+				y_ball = y_ball + BALL_STEP_SIZE;
+			end	
 
-				time_count = 'b0;
+			time_count = 'b0;
 
 		end else begin
 			time_count = time_count + 1;

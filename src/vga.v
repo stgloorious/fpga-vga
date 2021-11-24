@@ -46,20 +46,13 @@ reg[9:0] vertical_counter_d; /** counts horizontal lines */
 reg[9:0] vertical_counter_q;
 
 /* Buffered output signals */
-//reg [3:0] red_d;
 reg [3:0] red_q;
-//reg [3:0] green_d;
 reg [3:0] green_q;
-//reg [3:0] blue_d;
 reg [3:0] blue_q;
 reg [3:0] hsync_d;
 reg [3:0] hsync_q;
 reg [3:0] vsync_d;
 reg [3:0] vsync_q;
-
-//assign red_i = red_d;
-//assign green_i = green_d;
-//assign blue_i = blue_d;
 
 /* Synched by pixel clock, 25.175 MHz */
 always @ (posedge clk_i, negedge reset_ni) begin
