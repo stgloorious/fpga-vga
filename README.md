@@ -6,6 +6,7 @@ Written in Verilog, developed using [open source tools](https://github.com/FPGAw
 ## Hardware components
 - FPGA: Lattice iCE40UP5K on iCEBreaker v1.0e Development Board
 - Pmod VGA from Digilent ([Schematic](https://digilent.com/reference/_media/reference/pmod/pmodvga/pmodvga_sch.pdf))
+<img src="https://github.com/stgloorious/fpga-vga/blob/master/docs/hardware.jpg" width="400" />
 
 ## VGA
 Since VGA (Video Graphics Array) uses purely analog RGB signals, 
