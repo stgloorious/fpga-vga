@@ -14,7 +14,7 @@ module main (
 	input reset_ni, 
 
 	/* Buttons to control 
-	* the paddle */
+	* the left paddle */
 	input btn_dwn_i,
 	input btn_up_i,
 
@@ -75,8 +75,9 @@ vga u_vga (
 reg [9:0] x_ball = 'b0;
 reg [9:0] y_ball = 'b0;
 
-/** Current paddle position */
-reg [9:0] y_paddle = 'b0;
+/** Current paddle positions */
+reg [9:0] y_paddle_l = 'b0;
+reg [9:0] y_paddle_r = 'b0;
 reg [31:0] btn_dwn_count = 'b0;
 reg [31:0] btn_up_count = 'b0;
 
@@ -97,7 +98,7 @@ reg y_dir = DIR_INCREASING;
 
 /** Counting at 25.125 MHz, ball moves 
 * one step if counter reaches value TIMESTEP; */
-localparam TIMESTEP = 'd100000;
+localparam TIMESTEP = 'd41875;
 
 /** How many pixels the ball advances in
 * one timestep */
@@ -148,9 +149,9 @@ always @(posedge px_clk, negedge reset_ni)begin
 			
 			end else begin
 
-				/* Draw paddle */
+				/* Draw left paddle */
 				if (x_o >= PADDLE_POS && x_o < PADDLE_POS + PADDLE_WIDTH
-					&& y_o >= y_paddle && y_o < y_paddle + PADDLE_HEIGHT) begin
+					&& y_o >= y_paddle_l && y_o < y_paddle_l + PADDLE_HEIGHT) begin
 					
 					/* Paddle color */
 					red = 'd0;
@@ -159,25 +160,37 @@ always @(posedge px_clk, negedge reset_ni)begin
 
 				end else begin
 
-					/* Side bars */
-					if (x_o < SIDEBAR_WIDTH 
-						|| x_o > SCREEN_WIDTH-SIDEBAR_WIDTH) begin 
-						red = 'd2;
-						green='d2;
-						blue = 'd4;
-					end else begin
-						
-						/* Background color */
-						red = 'd15;
-						green='d15;
-						blue = 'd15;
-					end
+					/* Draw right paddle */
+					if (x_o >= SCREEN_WIDTH - PADDLE_POS - PADDLE_WIDTH && x_o < SCREEN_WIDTH - PADDLE_POS
+						&& y_o >= y_paddle_r && y_o < y_paddle_r + PADDLE_HEIGHT) begin
+					
+						/* Paddle color */
+						red = 'd0;
+						green = 'd0;
+						blue = 'd0;
 
-					/* Middle line */
-					if (x_o == 320) begin
-						red='d15;
-						green='d0;
-						blue='d0;
+					end else begin
+
+						/* Side bars */
+						if (x_o < SIDEBAR_WIDTH 
+							|| x_o > SCREEN_WIDTH-SIDEBAR_WIDTH) begin 
+							red = 'd2;
+							green='d2;
+							blue = 'd4;
+						end else begin
+							
+							/* Background color */
+							red = 'd15;
+							green='d15;
+							blue = 'd15;
+						end
+
+						/* Middle line */
+						if (x_o == 320) begin
+							red='d15;
+							green='d0;
+							blue='d0;
+						end
 					end
 				end
 			end
@@ -206,10 +219,19 @@ always @(posedge px_clk, negedge reset_ni) begin
 		* with boundary check */
 		if (time_count > TIMESTEP) begin 
 		
-			/* Check if ball collides with paddle */
+			/* Check if ball collides with left paddle */
 			if (x_ball == PADDLE_POS+PADDLE_WIDTH 
-				&& y_ball+BALL_HEIGHT >= y_paddle
-				&& y_ball < y_paddle+PADDLE_HEIGHT) begin
+				&& y_ball+BALL_HEIGHT >= y_paddle_l
+				&& y_ball < y_paddle_l+PADDLE_HEIGHT) begin
+					x_dir = ~x_dir;
+					y_dir = y_dir;
+			end
+
+		/* Check if ball collides with right paddle */
+			if (x_ball == SCREEN_WIDTH - PADDLE_POS
+				- PADDLE_WIDTH - BALL_WIDTH
+				&& y_ball+BALL_HEIGHT >= y_paddle_r
+				&& y_ball < y_paddle_r+PADDLE_HEIGHT) begin
 					x_dir = ~x_dir;
 					y_dir = y_dir;
 			end
@@ -261,8 +283,22 @@ always @(posedge px_clk, negedge reset_ni) begin
 	if (!reset_ni) begin
 		btn_dwn_count = 0;
 		btn_up_count = 0;
-		y_paddle = SCREEN_HEIGHT/2 -  PADDLE_HEIGHT/2;
+		y_paddle_l = SCREEN_HEIGHT/2 -  PADDLE_HEIGHT/2;
+		y_paddle_r = y_paddle_l;
 	end else begin
+
+		/* The "fake" right paddle just 
+		* moves perfectly with the ball */
+	if (y_ball + BALL_HEIGHT/2 > y_paddle_r + PADDLE_HEIGHT/2) begin
+		 if (y_paddle_r < SCREEN_HEIGHT - PADDLE_HEIGHT) begin
+			 y_paddle_r = y_paddle_r + 1;
+		 end
+	end
+	if (y_ball + BALL_HEIGHT/2<= y_paddle_r + PADDLE_HEIGHT/2) begin
+		 if (y_paddle_r > 0) begin
+			 y_paddle_r = y_paddle_r - 1;
+		 end
+	end
 
 		/* Buttons must be held for at least 
 		* TIMESTEP time steps to move the paddle */
@@ -276,16 +312,16 @@ always @(posedge px_clk, negedge reset_ni) begin
 		/* Down button */
 		if (btn_dwn_count > TIMESTEP) begin
 			btn_dwn_count = 0;
-			if (y_paddle < SCREEN_HEIGHT-PADDLE_HEIGHT) begin
-				y_paddle<=y_paddle+1;
+			if (y_paddle_l < SCREEN_HEIGHT-PADDLE_HEIGHT) begin
+				y_paddle_l<=y_paddle_l+1;
 			end
 		end
 
 		/* Up button */
 		if (btn_up_count > TIMESTEP) begin
 			btn_up_count = 0;
-			if (y_paddle > 0) begin 
-				y_paddle<=y_paddle-1;
+			if (y_paddle_l > 0) begin 
+				y_paddle_l<=y_paddle_l-1;
 			end
 		end
 	end
