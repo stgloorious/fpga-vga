@@ -6,7 +6,7 @@
 * Little pong game, displayed on a VGA monitor
 * in 640x480@60Hz mode. There is no need for 
 * a frame buffer (the iCEBreaker FPGA would have
-* too little anyway). Two buttons control the 
+* too little RAM anyway). Two buttons control the 
 * left paddle, the right paddle is "fake" and 
 * just follows the ball in a perfect way.
 *
