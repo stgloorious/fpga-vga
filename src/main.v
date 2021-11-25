@@ -3,11 +3,17 @@
 * @file main.v
 * @brief fpga-vga top-level file
 *
+* Little pong game, displayed on a VGA monitor
+* in 640x480@60Hz mode. There is no need for 
+* a frame buffer (the iCEBreaker FPGA would have
+* too little anyway). Two buttons control the 
+* left paddle, the right paddle is "fake" and 
+* just follows the ball in a perfect way.
+*
 */
 
 /**
 * Defines top level interface
-*
 */
 module main (
 	input clk_i, /** 12 MHz */
@@ -278,7 +284,7 @@ always @(posedge px_clk, negedge reset_ni) begin
 end
 
 /** Runs at 25.125 MHz */
-/* Reads buttons and moves paddle accordingly */
+/* Reads buttons and moves paddles accordingly */
 always @(posedge px_clk, negedge reset_ni) begin
 	if (!reset_ni) begin
 		btn_dwn_count = 0;
