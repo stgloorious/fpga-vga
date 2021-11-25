@@ -1,4 +1,5 @@
 /**
+*
 * @file main.v
 * @brief fpga-vga top-level file
 *
@@ -14,8 +15,8 @@ module main (
 
 	/* Buttons to control 
 	* the paddle */
-	input btn_left_i,
-	input btn_right_i,
+	input btn_dwn_i,
+	input btn_up_i,
 
 	/* To VGA monitor */
 	output [3:0] red_o,
@@ -76,6 +77,8 @@ reg [9:0] y_ball = 'b0;
 
 /** Current paddle position */
 reg [9:0] y_paddle = 'b0;
+reg [31:0] btn_dwn_count = 'b0;
+reg [31:0] btn_up_count = 'b0;
 
 /** Visible area */
 localparam SCREEN_WIDTH = 'd640;
@@ -107,7 +110,7 @@ localparam DIR_INCREASING = 'b1;
 
 /** Paddle size */
 localparam PADDLE_WIDTH = 'd8;
-localparam PADDLE_HEIGHT = 'd30;
+localparam PADDLE_HEIGHT = 'd80;
 
 /** How many pixels the paddle
 * advances in one time step */
@@ -207,8 +210,8 @@ always @(posedge px_clk, negedge reset_ni) begin
 			if (x_ball == PADDLE_POS+PADDLE_WIDTH 
 				&& y_ball+BALL_HEIGHT >= y_paddle
 				&& y_ball < y_paddle+PADDLE_HEIGHT) begin
-					x_dir = DIR_INCREASING;
-					y_dir = !y_dir;
+					x_dir = ~x_dir;
+					y_dir = y_dir;
 			end
 
 			/* Boundary check in x direction */
@@ -252,9 +255,41 @@ always @(posedge px_clk, negedge reset_ni) begin
 	end
 end
 
+/** Runs at 25.125 MHz */
+/* Reads buttons and moves paddle accordingly */
+always @(posedge px_clk, negedge reset_ni) begin
+	if (!reset_ni) begin
+		btn_dwn_count = 0;
+		btn_up_count = 0;
+		y_paddle = SCREEN_HEIGHT/2 -  PADDLE_HEIGHT/2;
+	end else begin
+
+		/* Buttons must be held for at least 
+		* TIMESTEP time steps to move the paddle */
+		if (btn_dwn_i) begin
+			btn_dwn_count = btn_dwn_count + 1;
+		end
+		if (btn_up_i) begin
+			btn_up_count = btn_up_count + 1;
+		end
+		
+		/* Down button */
+		if (btn_dwn_count > TIMESTEP) begin
+			btn_dwn_count = 0;
+			if (y_paddle < SCREEN_HEIGHT-PADDLE_HEIGHT) begin
+				y_paddle<=y_paddle+1;
+			end
+		end
+
+		/* Up button */
+		if (btn_up_count > TIMESTEP) begin
+			btn_up_count = 0;
+			if (y_paddle > 0) begin 
+				y_paddle<=y_paddle-1;
+			end
+		end
+	end
+end
+
 endmodule
-
-
-
-
 

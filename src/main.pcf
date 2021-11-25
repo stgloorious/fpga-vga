@@ -11,8 +11,8 @@ set_io --warn-no-port clk_i		35
 set_io --warn-no-port reset_ni		10
 
 # Left, right button #
-set_io --warn-no-port btn_left_i	20
-set_io --warn-no-port btn_right_i 18
+set_io --warn-no-port btn_dwn_i	20
+set_io --warn-no-port btn_up_i 18
 
 # PMOD 1A #
 set_io --warn-no-port red_o[0]		4
