@@ -1,5 +1,5 @@
 # fpga-vga
-Little FPGA project that drives a VGA monitor.
+Little FPGA project. Play Pong on a VGA monitor :)
 Written in Verilog, developed using [open source tools](https://github.com/FPGAwars/apio) and [hardware](https://icebreaker-fpga.org/).
 
 ![pong](docs/pong.gif)
