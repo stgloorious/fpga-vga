@@ -1,8 +1,10 @@
-\documentclass{minimal}
+\documentclass[11pt]{report}
 \usepackage{tikz}
 \usetikzlibrary{external, calc, arrows.meta}
 
-%\tikzexternalize
+\renewcommand{\familydefault}{\sfdefault}
+\definecolor{blendedblue}{rgb}{0.2,0.2,0.7}
+\tikzexternalize
 
 \begin{document}
 \begin{tikzpicture}
@@ -16,12 +18,13 @@
 	\def\arrowSpacing{-40}
 
 	% Visible area
-	\draw[draw=black, very thick, fill=red!20]	(origin) -- 
+	\draw[draw=black, very thick, text=white, fill=blendedblue]
+														(origin) -- 
 														(origin |- display) -- 
 														(display) -- 
 														(origin -| display) -- 
 														(origin);
-	\draw[draw=none] (origin) -- node[midway,align=center]
+	\draw[draw=none, text=white] (origin) -- node[midway,align=center]
 		{Visible area\\ 640 x 480 pixels}(display);
 
 	\draw[draw=none] (origin |- display) -- node[midway]{Blank area}(back_porch);

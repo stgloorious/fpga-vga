@@ -1,0 +1,22 @@
+\documentclass[17pt]{extarticle}
+\usepackage{tikz}
+\usetikzlibrary{external, calc, arrows.meta}
+
+\renewcommand{\familydefault}{\sfdefault}
+\definecolor{blendedblue}{rgb}{0.2,0.2,0.7}
+\tikzexternalize
+
+\begin{document}
+\begin{center}
+	\begin{tikzpicture}
+		\node[anchor=south east]
+			{\includegraphics[width=0.25\textwidth]{pmodvga.png}};
+		\node[anchor=west,text=blendedblue](buffer) at (-1,0){Voltage buffers};
+		\draw[very thick, -latex,draw=blendedblue] 
+			(buffer.west) -- (-2.5,1.9);
+		\node[anchor=west,text=blendedblue](r2r) at (-1,4){``R2R" Network};
+		\draw[very thick, -latex,draw=blendedblue]
+			(r2r.west) -- (-2,2.5);
+\end{tikzpicture}
+\end{center}
+\end{document}
